@@ -93,7 +93,7 @@ void Fastcgipp::Mail::Mailer::handler()
                             m_line = "EHLO ";
                             m_line += m_origin + '\n';
                             if(m_socket.write(m_line.data(), m_line.size())
-                                    != static_cast<unsigned>(m_line.size()))
+                                    != static_cast<ssize_t>(m_line.size()))
                             {
                                 ERROR_LOG("Error sending EHLO command to SMTP "\
                                         "server.")
@@ -152,7 +152,7 @@ void Fastcgipp::Mail::Mailer::handler()
                                 m_line = "MAIL FROM: <";
                                 m_line += m_email.from + ">\n";
                                 if(m_socket.write(m_line.data(), m_line.size())
-                                        != static_cast<unsigned>(m_line.size()))
+                                        != static_cast<ssize_t>(m_line.size()))
                                 {
                                     ERROR_LOG("Error sending MAIL command to "\
                                             "SMTP server.")
@@ -183,7 +183,7 @@ void Fastcgipp::Mail::Mailer::handler()
                             m_line = "RCPT TO: <";
                             m_line += m_email.to + ">\n";
                             if(m_socket.write(m_line.data(), m_line.size())
-                                    != static_cast<unsigned>(m_line.size()))
+                                    != static_cast<ssize_t>(m_line.size()))
                             {
                                 ERROR_LOG("Error sending RCPT command to SMTP "\
                                         "server.")
@@ -237,7 +237,7 @@ void Fastcgipp::Mail::Mailer::handler()
                             for(const auto& chunk: m_email.body)
                                 if(m_socket.write(
                                             chunk.data.get(),
-                                            chunk.size) != chunk.size)
+                                            chunk.size) != static_cast<ssize_t>(chunk.size))
                                 {
                                     ERROR_LOG("Error sending data chunk "\
                                             "to SMTP server.")
